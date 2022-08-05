@@ -4,11 +4,11 @@ export function useVktCtx() {
   return inject('vktCtx')
 }
 
-export function useAction() {
+export function useActionData() {
   return inject('actionData')
 }
 
-export function useLoader() {
+export function useLoaderData() {
   return inject('loaderData')
 }
 
