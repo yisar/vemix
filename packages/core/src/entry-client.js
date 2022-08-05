@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 
-import { getLeafRoute, getAncestorRoutes, fetchLoaderData } from './index.mjs'
+import { getLeafRoute, getAncestorRoutes, fetchLoaderData } from './api.mjs'
 import createVktApp from './app.mjs'
 
 const vktCtx = reactive({
