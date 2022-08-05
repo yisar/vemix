@@ -1,8 +1,3 @@
-const chokidar = require("chokidar")
-const Path = require("path")
-const ora = require('ora')
-const { spawn, execFile, execFileSync } = require("child_process")
-
 async function run(argv) {
   const options = {
     e: argv.entry,
@@ -13,7 +8,7 @@ async function run(argv) {
     p: argv.publicUrl,
     t: argv.t,
   }
-  console.log(options)
+  console.log(argv)
 }
 
 if (argv.version) {

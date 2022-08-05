@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pnpm run build --filter @venti/core"
+    "start": "pnpm --filter @venti/core debug"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "esbuild": "^0.14.53",
     "pnpm": "^7.8.0"
   }
 }
