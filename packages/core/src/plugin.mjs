@@ -73,7 +73,7 @@ export const routePlugin = (build, filesPromise, type) => {
       const cmp = (await import('./${getImport(f.path)}')).default;
       return {
         name: 'RouteWrapper',
-        render: (h) => h(VuemixRoute, { props: { id: '${
+        render: (h) => h(VktRoute, { props: { id: '${
           f.path
         }' }, scopedSlots: { default: props => h(cmp, { props: {id: '${
       f.path
@@ -86,7 +86,7 @@ export const routePlugin = (build, filesPromise, type) => {
     const contents = `
   import { h } from 'vue';
   
-  import { VuemixRoute } from '../../vuemix/index.mjs';
+  import { VktRoute } from '../../vkt/index.mjs';
   
   export default [${files
     .filter((f) => !f.parent)
