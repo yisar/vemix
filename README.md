@@ -6,10 +6,10 @@ Simple Vue SSR framework.
 
 ```vue
 <template>
-  <div class="example">{{ msg }}</div>
+  <div>{{ msg }}</div>
 </template>
 <script>
-import { useData } from 'ventijs'
+import { useLoaderData } from 'vkt'
 import { computed } from 'vue'
 
 export function loader() {
@@ -29,9 +29,4 @@ export default {
   },
 }
 </script>
-<style>
-.example {
-  color: red;
-}
-</style>
 ```
