@@ -14,6 +14,9 @@
     "esbuild": "^0.14.53",
     "express": "^4.18.1",
     "pnpm": "^7.8.0",
+    "vue": "^2.7.8",
+    "vue-router": "^3.4.8",
+    "vue-server-renderer": "^2.7.8",
     "ws": "^8.8.1"
   }
 }
