@@ -1,4 +1,4 @@
-# venti
+# vkt
 
 Simple Vue SSR framework.
 
