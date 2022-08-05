@@ -20,7 +20,7 @@ export function loader() {
 
 export default {
   setup() {
-    const data = useData()
+    const data = useLoaderData()
     const msg = computed(() => data.value.msg)
 
     return {
