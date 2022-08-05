@@ -1,0 +1,16 @@
+{
+  "name": "venti",
+  "version": "0.0.0",
+  "description": "Vue ssr framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pnpm run build --filter @venti/core"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pnpm": "^7.8.0"
+  }
+}

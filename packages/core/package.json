@@ -1,0 +1,23 @@
+{
+  "name": "@venti/core",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "venti": "bin/index.js"
+  },
+  "scripts": {
+    "dev": "wean -e ./demo/app.json -o ./dist/",
+    "build": "wean build -e ./demo/app.json -o ./dist/ -m",
+    "debug": "node --inspect ./cli.js -e ../demo/app.json -o ../runtime/demo/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/yisar/fre-miniapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+  }
+}
