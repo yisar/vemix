@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ msg }}111</h1>
+  <h1>{{ msg }}</h1>
 </template>
 <script>
 import { useLoaderData } from '../../core/src/api.mjs'
@@ -7,7 +7,7 @@ import { computed } from 'vue'
 
 export function loader() {
   return {
-    msg: 'Hello world!1111',
+    msg: 'Hello world!333',
   }
 }
 

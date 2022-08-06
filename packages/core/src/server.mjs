@@ -35,12 +35,12 @@ export async function startWss() {
   return { reload }
 }
 
-export async function startServer() {
+export async function startServer(r) {
   const {
     renderApp,
     routeManifest,
     serverCreateApp,
-  } = await import(`file://${process.cwd()}/dist/server/app.js`);
+  } = await import(`file://${process.cwd()}/dist/server/app.js?t=${Date.now()}`);
 
 
   const app = express()
@@ -74,7 +74,6 @@ export async function startServer() {
       const activeRoute = Object.values(routeManifest).find(
         (r) => r.path === req.path
       )
-
       if (!activeRoute) {
         res.status(404).send(`Not Found: ${req.url}`)
         return
@@ -126,20 +125,17 @@ export async function startServer() {
 
           throw new Error('Unsupported thrown value from action')
         }
-      }
-
-      const loaderRoutes = req.query._data
-        ? req.query._data.split(',').map((id) => routeManifest[id])
-        : activeRoutes
+      }      
 
       const results = await Promise.all(
-        loaderRoutes.map((a) =>
-          a.loader ? a.loader({ request: req }) : Promise.resolve(null)
+        activeRoutes.map((a) =>{
+          return a.loader ? a.loader({ request: req }) : Promise.resolve(null)
+        }
         )
       )
       results.forEach((data, i) =>
         Object.assign(context.loaderData, {
-          [loaderRoutes[i].id]: data,
+          [activeRoutes[i].id]: data,
         })
       )
 
@@ -181,6 +177,7 @@ export async function startServer() {
             }
             ws.onmessage = (e) => {
               if (e.data === 'reload') {
+                console.log(123)
                 location.reload()
               }
             }
@@ -199,14 +196,13 @@ export async function startServer() {
     console.info('serve on http://localhost:1234')
   })
 
+  if (r) r()
+
   const reload = () => {
     server.close()
-    
-    return new Promise(r=>{
-      server = app.listen(1234, ()=>{
-      r()
-      console.info('serve on http://localhost:1234')
-    })
+    server = null
+    return new Promise(r => {
+      startServer(r)
     })
   }
 

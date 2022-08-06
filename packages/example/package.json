@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vkt dev -w true",
-    "debug": "nodemon --watch routes -e vue ../core/cli.mjs "
+    "debug": "node ../core/cli.mjs -w true"
   },
   "keywords": [],
   "author": "",

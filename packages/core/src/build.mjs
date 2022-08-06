@@ -16,11 +16,8 @@ export async function buildSever(options) {
     plugins: [
       vktPlugin({ type: 'server' }),
       vue2Plugin({
-        extractCss: true, createCompilerOption: {
-          template: {
-            optimizeSSR: false
-          }
-        }
+        extractCss: true,
+        
       }),
     ],
     watch: process.env.WATCH === 'true',
@@ -40,11 +37,7 @@ export async function buildClient(options) {
     plugins: [
       vktPlugin({ type: 'client' }),
       vue2Plugin({
-        extractCss: true, createCompilerOption: {
-          template: {
-            optimizeSSR: false
-          }
-        }
+        extractCss: true,
       }),
     ],
     watch: process.env.WATCH === 'true',

@@ -34,3 +34,5 @@ export async function renderApp(app, context) {
   const html = renderer.renderToString(app, context)
   return html
 }
+
+require.cache = false
