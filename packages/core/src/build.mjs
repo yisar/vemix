@@ -1,7 +1,7 @@
 import { build } from 'esbuild'
 import vue2Plugin from 'esbuild-vue'
 import path from 'path'
-import { nodeFetchPlugin, vktPlugin } from './plugin.mjs'
+import { nodeFetchPlugin, vktPlugin, requirePlugin } from './plugin.mjs'
 let defineOptions = {}
 
 export async function buildSever(options) {
@@ -16,6 +16,7 @@ export async function buildSever(options) {
     plugins: [
       nodeFetchPlugin(),
       vktPlugin({ type: 'server' }),
+      requirePlugin(),
       vue2Plugin({ extractCss: true }),
     ],
     watch: process.env.WATCH === 'true',
@@ -35,7 +36,8 @@ export async function buildClient(options) {
     plugins: [
       nodeFetchPlugin(),
       vktPlugin({ type: 'client' }),
-      vue2Plugin({ type: 'client' }),
+      requirePlugin(),
+      vue2Plugin(),
     ],
     watch: process.env.WATCH === 'true',
   })

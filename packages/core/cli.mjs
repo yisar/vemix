@@ -11,6 +11,7 @@ async function run(argv) {
 }
 
 async function start(options) {
+  console.log(process.cwd())
   const start = Date.now()
   await buildAll(options)
   const end = Date.now()

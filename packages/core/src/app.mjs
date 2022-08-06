@@ -1,7 +1,7 @@
 import Vue, { computed, provide } from 'vue'
 import VueRouter from 'vue-router'
 import routes from 'vkt:route-definition'
-import RootView from '../../example/app.vue' // vkt:entry
+import RootView from 'vkt:entry' // vkt:entry
 
 export default function createApp(vktCtx, mode) {
   Vue.use(VueRouter)

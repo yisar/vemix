@@ -148,3 +148,13 @@ export const vktPlugin = ({ type }) => ({
     routePlugin(b, filesPromise, type)
   },
 })
+
+export const requirePlugin = () => ({
+  name: 'require-plugin',
+  setup(b) {
+    console.log(process.cwd() + '/app.vue')
+    b.onResolve({ filter: /^vkt:entry$/ }, async (args) => ({
+      path: process.cwd() + '\\app.vue'
+    }))
+  },
+})
