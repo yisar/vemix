@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "vkt dev"
+    "dev": "vkt dev",
+    "debug":"node --inspect ../core/cli.mjs -e ./-o ./dist"
   },
   "keywords": [],
   "author": "",
