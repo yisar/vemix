@@ -6,7 +6,7 @@ let defineOptions = {}
 
 export async function buildSever(options) {
   const result = await build({
-    entryPoints: [path.join(options.dirname, './entry-server.js')],
+    entryPoints: [path.join(options.dirname, './entry-server.mjs')],
     bundle: true,
     metafile: true,
     platform: 'node',
@@ -44,10 +44,18 @@ export async function buildClient(options) {
 
 export async function buildAll(options) {
   const dirname = new URL('.', import.meta.url).pathname.slice(1)
-  defineOptions = options
   options.dirname = dirname
-  // await buildClient(options)
-  await buildSever(options)
+  options.entry = path.join(process.cwd(), options.e)
+  defineOptions = options
+
+  const p1 = async () => {
+    return await buildSever(options)
+  }
+  const p2 = async () => {
+    return await buildClient(options)
+  }
+
+  const [r1, r2] = await Promise.all([p1(), p2()])
 }
 
 export function getOptions() {

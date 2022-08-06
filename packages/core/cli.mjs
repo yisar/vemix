@@ -1,4 +1,5 @@
 import { buildAll } from './src/build.mjs'
+import { startServer } from './src/server.mjs'
 async function run(argv) {
   if (argv[0] === '-v' || argv[0] === '--version') {
     console.log('v0.0.1')
@@ -10,6 +11,7 @@ async function run(argv) {
 
 async function start(options) {
   await buildAll(options)
+  await startServer()
 }
 
 const getOptions = (argv) => {

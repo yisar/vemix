@@ -2,7 +2,7 @@
   <div>{{ msg }}</div>
 </template>
 <script>
-import { useLoaderData } from '@vkt/core'
+import { useLoaderData } from '../../core/src/api.mjs'
 import { computed } from 'vue'
 
 export function loader() {

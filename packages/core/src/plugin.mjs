@@ -1,14 +1,12 @@
 import path from 'path'
 import fs from 'fs'
-import { getOptions } from './build.mjs'
 
-const dirname = new URL('.', import.meta.url).pathname.slice(1)
+const dirname = new URL('.', import.meta.url).pathname
+const routeDir = path.join(process.cwd(), 'routes')
 
 const generateRelativePath = (d, f) => (d ? path.join(d, f) : f)
 
 async function readRoutesDirectory(dir) {
-  const options = getOptions()
-  const routeDir = path.join(dirname, options.e)
   const files = []
   const rootDir = dir ? path.join(routeDir, dir) : routeDir
   const dirContents = await fs.promises.readdir(rootDir)
@@ -85,8 +83,7 @@ export const routePlugin = (build, filesPromise, type) => {
 
     const contents = `
   import { h } from 'vue';
-  
-  import { VktRoute } from '../../vkt/index.mjs';
+  import { VktRoute } from '../../core/src/api.mjs';
   
   export default [${files
         .filter((f) => !f.parent)

@@ -1,10 +1,10 @@
 const { createRenderer } = require('vue-server-renderer')
 
-// import routes from 'vkt:route-manifest'
+import routes from 'vkt:route-manifest'
 
 import createApp from './app.mjs'
 
-export const routeManifest = {}
+export const routeManifest = routes
 
 export async function serverCreateApp(context) {
   const { app, router } = createApp(

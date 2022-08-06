@@ -1,11 +1,11 @@
 import Vue, { computed, provide } from 'vue'
 import VueRouter from 'vue-router'
-// import routes from 'vkt:route-definition'
-import RootView from '../../example/app.vue'
+import routes from 'vkt:route-definition'
+import RootView from '../../example/app.vue' // vkt:entry
 
 export default function createApp(vktCtx, mode) {
   Vue.use(VueRouter)
-  const router = new VueRouter({ mode, routes:{} })
+  const router = new VueRouter({ mode, routes })
   const app = new Vue({
     setup() {
       provide('vktCtx', vktCtx)

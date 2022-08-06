@@ -1,3 +1,12 @@
+import express from 'express'
+import {
+  renderApp,
+  routeManifest,
+  serverCreateApp,
+} from '../../example/dist/server/app.js';
+import { Response } from './response.mjs';
+
+
 export async function startWss() {
   this.wss = new WebSocket.Server({
     port: 5678,
@@ -23,10 +32,9 @@ export async function startServer() {
   const server = express()
   server.use(express.urlencoded({ extended: true }))
 
-  const dirname = new URL('.', import.meta.url).pathname
-  server.get(/\.(css|js)$/, express.static(`${dirname}../dist/client`))
+  server.get(/\.(css|js)$/, express.static(`${process.cwd()}../dist/client`))
 
-  const clientManifest = Object.entries(manifest).reduce(
+  const clientManifest = Object.entries(routeManifest).reduce(
     (acc, [k, v]) =>
       Object.assign(acc, {
         [k]: {
@@ -141,7 +149,7 @@ export async function startServer() {
              <div id="app">${html}</div>
              <script>
              window.__vkt = {
-              routeManifest: ${hydrateObj(clientRouteManifest)},
+              routeManifest: ${hydrateObj(clientManifest)},
               actionData: ${hydrateObj(context.actionData)},
               loaderData: ${hydrateObj(context.loaderData)}
             };
@@ -157,7 +165,7 @@ export async function startServer() {
   })
 
   server.listen(1234, () => {
-    console.info('Server listening at http://localhost:8080')
+    console.info('Server listening at http://localhost:1234')
   })
 }
 
