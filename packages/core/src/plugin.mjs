@@ -133,28 +133,15 @@ export default {
   })
 }
 
-export const nodeFetchPlugin = () => ({
-  name: 'server-node-external',
-  setup(b) {
-    b.onResolve({ filter: /^node-fetch$/ }, () => ({ external: true }))
-  },
-})
-
 export const vktPlugin = ({ type }) => ({
   name: 'vkt-plugin',
   setup(b) {
-    const filesPromise = readRoutesDirectory()
-    manifestPlugin(b, filesPromise)
-    routePlugin(b, filesPromise, type)
-  },
-})
-
-export const requirePlugin = () => ({
-  name: 'require-plugin',
-  setup(b) {
-    console.log(process.cwd() + '/app.vue')
     b.onResolve({ filter: /^vkt:entry$/ }, async (args) => ({
       path: process.cwd() + '\\app.vue'
     }))
+    b.onResolve({ filter: /^node-fetch$/ }, () => ({ external: true }))
+    const filesPromise = readRoutesDirectory()
+    manifestPlugin(b, filesPromise)
+    routePlugin(b, filesPromise, type)
   },
 })

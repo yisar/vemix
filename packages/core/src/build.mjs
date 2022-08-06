@@ -1,8 +1,7 @@
 import { build } from 'esbuild'
 import vue2Plugin from 'esbuild-vue'
 import path from 'path'
-import { nodeFetchPlugin, vktPlugin, requirePlugin } from './plugin.mjs'
-let defineOptions = {}
+import { vktPlugin } from './plugin.mjs'
 
 export async function buildSever(options) {
   const result = await build({
@@ -14,9 +13,7 @@ export async function buildSever(options) {
     treeShaking: true,
     outfile: 'dist/server/app.js',
     plugins: [
-      nodeFetchPlugin(),
       vktPlugin({ type: 'server' }),
-      requirePlugin(),
       vue2Plugin({ extractCss: true }),
     ],
     watch: process.env.WATCH === 'true',
@@ -34,9 +31,7 @@ export async function buildClient(options) {
     target: 'es2020',
     outdir: 'dist/client',
     plugins: [
-      nodeFetchPlugin(),
       vktPlugin({ type: 'client' }),
-      requirePlugin(),
       vue2Plugin(),
     ],
     watch: process.env.WATCH === 'true',
@@ -45,10 +40,7 @@ export async function buildClient(options) {
 }
 
 export async function buildAll(options) {
-  const dirname = new URL('.', import.meta.url).pathname.slice(1)
-  options.dirname = dirname
   options.entry = path.join(process.cwd(), options.e)
-  defineOptions = options
 
   const p1 = async () => {
     return await buildSever(options)
@@ -58,8 +50,4 @@ export async function buildAll(options) {
   }
 
   const [r1, r2] = await Promise.all([p1(), p2()])
-}
-
-export function getOptions() {
-  return defineOptions
 }

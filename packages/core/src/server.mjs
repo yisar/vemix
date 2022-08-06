@@ -1,9 +1,4 @@
 import express from 'express'
-import {
-  renderApp,
-  routeManifest,
-  serverCreateApp,
-} from '../../example/dist/server/app.js';
 import { Response } from './response.mjs';
 
 
@@ -29,6 +24,13 @@ export async function startWss() {
 }
 
 export async function startServer() {
+  const {
+    renderApp,
+    routeManifest,
+    serverCreateApp,
+  } = await import(`file://${process.cwd()}/dist/server/app.js`);
+
+
   const server = express()
   server.use(express.urlencoded({ extended: true }))
 
