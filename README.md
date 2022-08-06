@@ -2,6 +2,12 @@
 
 Simple Vue SSR framework.
 
+### Run 
+
+```shell
+yarn dev
+```
+
 ### Usage
 
 ```vue
