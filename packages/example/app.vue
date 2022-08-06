@@ -3,7 +3,7 @@
     <header>
       <div v-show="isLoading" class="loading">Loading...</div>
     </header>
-    <router-view :key="$route.path"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 

@@ -1,10 +1,10 @@
 {
-  "name": "@venti/core",
+  "name": "@vkt/core",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "bin": {
-    "venti": "bin/index.js"
+    "vkt": "bin/index.js"
   },
   "scripts": {
     "debug": "node --inspect ./cli.mjs -e ../demo -o ../demo/dist"
