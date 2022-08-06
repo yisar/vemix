@@ -5,7 +5,7 @@ import { vktPlugin } from './plugin.mjs'
 
 export async function buildSever(options) {
   const result = await build({
-    entryPoints: [path.join(options.dirname, './entry-server.mjs')],
+    entryPoints: [path.join(options.dirname.slice(1), './entry-server.mjs')],
     bundle: true,
     metafile: true,
     platform: 'node',
@@ -23,7 +23,7 @@ export async function buildSever(options) {
 
 export async function buildClient(options) {
   const result = await build({
-    entryPoints: [path.join(options.dirname, './entry-client.mjs')],
+    entryPoints: [path.join(options.dirname.slice(1), './entry-client.mjs')],
     bundle: true,
     format: 'esm',
     metafile: true,
@@ -41,6 +41,7 @@ export async function buildClient(options) {
 
 export async function buildAll(options) {
   options.entry = path.join(process.cwd(), options.e)
+  options.dirname = new URL('.', import.meta.url).pathname
 
   const p1 = async () => {
     return await buildSever(options)
@@ -49,5 +50,5 @@ export async function buildAll(options) {
     return await buildClient(options)
   }
 
-  const [r1, r2] = await Promise.all([p1(), p2()])
+  return await Promise.all([p1(), p2()])
 }
