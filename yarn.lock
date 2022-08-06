@@ -541,6 +541,11 @@ esbuild-sunos-64@0.14.53:
   resolved "https://registry.yarnpkg.com/esbuild-sunos-64/-/esbuild-sunos-64-0.14.53.tgz#f7a872f7460bfb7b131f7188a95fbce3d1c577e8"
   integrity sha512-OWLpS7a2FrIRukQqcgQqR1XKn0jSJoOdT+RlhAxUoEQM/IpytS3FXzCJM6xjUYtpO5GMY0EdZJp+ur2pYdm39g==
 
+esbuild-vue2@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/esbuild-vue2/-/esbuild-vue2-1.0.1.tgz#73afdfebe1891818eb58581c982be71341ce72c0"
+  integrity sha512-6z8GrX3u+U5w3RPC6DFOSiDNLfedcZ5hjWXi/meZGPJzmbFIMVAwdArAYD0qJf+wKERN23QuuTDDUJ2qLEMxAg==
+
 esbuild-vue@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/esbuild-vue/-/esbuild-vue-1.2.1.tgz#8ce445bdd8a62cef13a34e7c4932a64779998ad4"

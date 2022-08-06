@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vkt dev",
-    "debug":"node --inspect ../core/cli.mjs -e ./-o ./dist"
+    "debug":"node --inspect ../core/cli.mjs"
   },
   "keywords": [],
   "author": "",

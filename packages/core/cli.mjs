@@ -1,6 +1,7 @@
 import { buildAll } from './src/build.mjs'
 import { startServer, startWss } from './src/server.mjs'
-import chalk from 'chalk'
+import { watch } from 'chokidar'
+
 async function run(argv) {
   if (argv[0] === '-v' || argv[0] === '--version') {
     console.log('v0.0.1')
@@ -11,12 +12,39 @@ async function run(argv) {
 }
 
 async function start(options) {
-  const start = Date.now()
   await buildAll(options)
-  const end = Date.now()
-  console.log(chalk.green(`compile time ${end - start}ms`))
-  await startServer()
-  await startWss()
+
+  const { reload: reloadServer } = await startServer()
+  const { reload: reloadClient } = await startWss()
+
+  if (options.w) {
+    watch(['**/*.{ts,tsx,js,jsx,vue,css,sass}'], {
+      ignoreInitial: true,
+      cwd: process.cwd(),
+      ignored: [
+        'node_modules',
+        '.git',
+        'test-fixtures',
+        'dist'
+      ]
+    })
+      .on('add', async (file) => {
+        await buildAll(options)
+        await reloadServer(file)
+        reloadClient(file)
+
+      })
+      .on('change', async (file) => {
+        await buildAll(options)
+        await reloadServer(file)
+        reloadClient(file)
+      })
+      .on('unlink', async (file) => {
+        await buildAll(options)
+        await reloadServer(file)
+        reloadClient(file)
+      })
+  }
 }
 
 const getOptions = (argv) => {

@@ -1,8 +1,5 @@
 <template>
   <div>
-    <header>
-      <div v-show="isLoading" class="loading">Loading...</div>
-    </header>
     <router-view></router-view>
   </div>
 </template>

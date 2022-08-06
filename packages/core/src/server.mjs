@@ -1,11 +1,10 @@
 import express from 'express'
 import { Response } from './response.mjs';
-import WebSocket, {WebSocketServer} from 'ws'
-import { watch }  from 'chokidar'
-
+import { WebSocketServer } from 'ws'
+let server = null
 
 export async function startWss() {
-  return new WebSocketServer({
+  const wss = new WebSocketServer({
     port: 5678,
     perMessageDeflate: {
       zlibDeflateOptions: {
@@ -23,6 +22,17 @@ export async function startWss() {
       threshold: 1024,
     },
   })
+
+  const reload = (file) => {
+    console.log('reload: ', file)
+    if (wss.clients) {
+      for (const client of wss.clients) {
+        client.send('reload')
+      }
+    }
+  }
+
+  return { reload }
 }
 
 export async function startServer() {
@@ -33,10 +43,10 @@ export async function startServer() {
   } = await import(`file://${process.cwd()}/dist/server/app.js`);
 
 
-  const server = express()
-  server.use(express.urlencoded({ extended: true }))
+  const app = express()
+  app.use(express.urlencoded({ extended: true }))
 
-  server.get(/\.(css|js)$/, express.static(`${process.cwd()}/dist/client`))
+  app.get(/\.(css|js)$/, express.static(`${process.cwd()}/dist/client`))
 
   const clientManifest = Object.entries(routeManifest).reduce(
     (acc, [k, v]) =>
@@ -51,7 +61,7 @@ export async function startServer() {
     {}
   )
 
-  server.all('*', async (req, res, next) => {
+  app.all('*', async (req, res, next) => {
     function getAncestorRoutes(route) {
       if (!route.parent) {
         return [route]
@@ -171,7 +181,7 @@ export async function startServer() {
             }
             ws.onmessage = (e) => {
               if (e.data === 'reload') {
-                location.reload()
+                console.log(123)
               }
             }
             </script>
@@ -185,9 +195,22 @@ export async function startServer() {
     }
   })
 
-  server.listen(1234, () => {
+  server = app.listen(1234, () => {
     console.info('serve on http://localhost:1234')
   })
+
+  const reload = () => {
+    server.close()
+    
+    return new Promise(r=>{
+      server = app.listen(1234, ()=>{
+      r()
+      console.info('serve on http://localhost:1234')
+    })
+    })
+  }
+
+  return { reload }
 }
 
 function sendFetchResponse(fetchResponse, expressResponse, isSpaCall = false) {

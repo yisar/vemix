@@ -1,5 +1,5 @@
 <template>
-  <div class="msg">{{ msg }}</div>
+  <h1>{{ msg }}111</h1>
 </template>
 <script>
 import { useLoaderData } from '../../core/src/api.mjs'

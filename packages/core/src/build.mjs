@@ -1,6 +1,7 @@
 import { build } from 'esbuild'
 import vue2Plugin from 'esbuild-vue'
 import path from 'path'
+import chalk from 'chalk'
 import { vktPlugin } from './plugin.mjs'
 
 export async function buildSever(options) {
@@ -14,7 +15,13 @@ export async function buildSever(options) {
     outfile: 'dist/server/app.js',
     plugins: [
       vktPlugin({ type: 'server' }),
-      vue2Plugin({ extractCss: true }),
+      vue2Plugin({
+        extractCss: true, createCompilerOption: {
+          template: {
+            optimizeSSR: false
+          }
+        }
+      }),
     ],
     watch: process.env.WATCH === 'true',
   })
@@ -32,7 +39,13 @@ export async function buildClient(options) {
     outdir: 'dist/client',
     plugins: [
       vktPlugin({ type: 'client' }),
-      vue2Plugin({ extractCss: true }),
+      vue2Plugin({
+        extractCss: true, createCompilerOption: {
+          template: {
+            optimizeSSR: false
+          }
+        }
+      }),
     ],
     watch: process.env.WATCH === 'true',
   })
@@ -49,6 +62,8 @@ export async function buildAll(options) {
   const p2 = async () => {
     return await buildClient(options)
   }
-
-  return await Promise.all([p1(), p2()])
+  const start = Date.now()
+  await Promise.all([p1(), p2()])
+  const end = Date.now()
+  console.log(chalk.green(`compile time ${end - start}ms`))
 }
