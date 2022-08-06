@@ -1,9 +1,11 @@
 import express from 'express'
 import { Response } from './response.mjs';
+import WebSocket, {WebSocketServer} from 'ws'
+import { watch }  from 'chokidar'
 
 
 export async function startWss() {
-  this.wss = new WebSocket.Server({
+  return new WebSocketServer({
     port: 5678,
     perMessageDeflate: {
       zlibDeflateOptions: {
@@ -34,7 +36,7 @@ export async function startServer() {
   const server = express()
   server.use(express.urlencoded({ extended: true }))
 
-  server.get(/\.(css|js)$/, express.static(`${process.cwd()}../dist/client`))
+  server.get(/\.(css|js)$/, express.static(`${process.cwd()}/dist/client`))
 
   const clientManifest = Object.entries(routeManifest).reduce(
     (acc, [k, v]) =>
@@ -144,20 +146,37 @@ export async function startServer() {
       const page = `<!DOCTYPE html>
       <html>
          <head>
-             <title>Vkt</title>
-             <link rel="stylesheet" href="/entry-client.css" />
+            <title>Vkt</title>
+            <link rel="stylesheet" href="/entry-client.css" />
          </head>
          <body>
-             <div id="app">${html}</div>
-             <script>
+            <div id="app">${html}</div>
+            <script>
              window.__vkt = {
               routeManifest: ${hydrateObj(clientManifest)},
               actionData: ${hydrateObj(context.actionData)},
               loaderData: ${hydrateObj(context.loaderData)}
             };
-             </script>
-             <script src="/entry-client.js" type="module"></script>
-             </body>
+
+            let ws = new WebSocket(\`ws://\${location.hostname}:5678\`)
+            ws.onerror = () => {
+              console.error('WebSocket error')
+            }
+            ws.onopen = () => {
+              console.log('WebSocket connection opened')
+            }
+            ws.onclose = () => {
+              console.log('WebSocket connection closed')
+              ws = null
+            }
+            ws.onmessage = (e) => {
+              if (e.data === 'reload') {
+                location.reload()
+              }
+            }
+            </script>
+            <script src="/entry-client.js" type="module"></script>
+            </body>
       </html>`
       res.setHeader('Content-Type', 'text/html')
       res.send(page)

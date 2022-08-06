@@ -1,5 +1,5 @@
 <template>
-  <div>{{ msg }}</div>
+  <div class="msg">{{ msg }}</div>
 </template>
 <script>
 import { useLoaderData } from '../../core/src/api.mjs'
@@ -22,3 +22,8 @@ export default {
   },
 }
 </script>
+<style>
+.msg{
+    color: aquamarine;
+}
+</style>

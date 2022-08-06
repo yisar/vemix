@@ -32,7 +32,7 @@ export async function buildClient(options) {
     outdir: 'dist/client',
     plugins: [
       vktPlugin({ type: 'client' }),
-      vue2Plugin(),
+      vue2Plugin({ extractCss: true }),
     ],
     watch: process.env.WATCH === 'true',
   })
