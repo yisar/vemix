@@ -181,7 +181,7 @@ export async function startServer() {
             }
             ws.onmessage = (e) => {
               if (e.data === 'reload') {
-                console.log(123)
+                location.reload()
               }
             }
             </script>
