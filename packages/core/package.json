@@ -7,7 +7,6 @@
     "vkt": "bin/index.js"
   },
   "scripts": {
-    "debug": "node --inspect ./cli.mjs -e ../../example -o ../../example/dist"
   },
   "repository": {
     "type": "git",

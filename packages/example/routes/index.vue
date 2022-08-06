@@ -7,7 +7,7 @@ import { computed } from 'vue'
 
 export function loader() {
   return {
-    msg: 'Hello world!',
+    msg: 'Hello world!1111',
   }
 }
 

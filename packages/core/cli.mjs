@@ -1,6 +1,7 @@
 import { buildAll } from './src/build.mjs'
 import { startServer, startWss } from './src/server.mjs'
 import { watch } from 'chokidar'
+import { restart } from './watch.mjs'
 
 async function run(argv) {
   if (argv[0] === '-v' || argv[0] === '--version') {
@@ -29,20 +30,17 @@ async function start(options) {
       ]
     })
       .on('add', async (file) => {
-        await buildAll(options)
-        await reloadServer(file)
-        reloadClient(file)
+        restart()
+        reloadClient()
 
       })
       .on('change', async (file) => {
-        await buildAll(options)
-        await reloadServer(file)
-        reloadClient(file)
+        restart()
+        reloadClient()
       })
       .on('unlink', async (file) => {
-        await buildAll(options)
-        await reloadServer(file)
-        reloadClient(file)
+        restart()
+        reloadClient()
       })
   }
 }
