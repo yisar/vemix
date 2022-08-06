@@ -165,7 +165,7 @@ export async function startServer() {
   })
 
   server.listen(1234, () => {
-    console.info('Server listening at http://localhost:1234')
+    console.info('serve on http://localhost:1234')
   })
 }
 

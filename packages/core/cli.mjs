@@ -1,5 +1,6 @@
 import { buildAll } from './src/build.mjs'
 import { startServer } from './src/server.mjs'
+import chalk from 'chalk'
 async function run(argv) {
   if (argv[0] === '-v' || argv[0] === '--version') {
     console.log('v0.0.1')
@@ -10,7 +11,10 @@ async function run(argv) {
 }
 
 async function start(options) {
+  const start = Date.now()
   await buildAll(options)
+  const end = Date.now()
+  console.log(chalk.green(`compile time ${end - start}ms`))
   await startServer()
 }
 

@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pnpm --filter @vkt/core debug"
+    "start": "pnpm --filter @vkt/example dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^5.0.1",
     "esbuild": "^0.14.53",
     "esbuild-vue": "^1.2.1",
     "express": "^4.18.1",
