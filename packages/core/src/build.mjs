@@ -1,11 +1,12 @@
 import { build } from 'esbuild'
 import vue2Plugin from 'esbuild-vue'
+import path from 'path'
 import { nodeFetchPlugin, vktPlugin } from './plugin.mjs'
 let defineOptions = {}
 
-export async function buildSever() {
+export async function buildSever(options) {
   const result = await build({
-    entryPoints: ['./entry-server.mjs'],
+    entryPoints: [path.join(options.dirname, './entry-server.js')],
     bundle: true,
     metafile: true,
     platform: 'node',
@@ -22,9 +23,9 @@ export async function buildSever() {
   return result
 }
 
-export async function buildClient() {
+export async function buildClient(options) {
   const result = await build({
-    entryPoints: ['./entry-client.mjs'],
+    entryPoints: [path.join(options.dirname, './entry-client.mjs')],
     bundle: true,
     format: 'esm',
     metafile: true,
@@ -42,11 +43,13 @@ export async function buildClient() {
 }
 
 export async function buildAll(options) {
+  const dirname = new URL('.', import.meta.url).pathname.slice(1)
   defineOptions = options
-  await buildClient()
-  await buildSever()
+  options.dirname = dirname
+  // await buildClient(options)
+  await buildSever(options)
 }
 
-export function getOptions(){
+export function getOptions() {
   return defineOptions
 }

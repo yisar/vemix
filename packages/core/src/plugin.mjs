@@ -18,8 +18,8 @@ async function readRoutesDirectory(dir) {
     const relativePath = generateRelativePath(dir, dirContents[i])
     if (stats.isDirectory()) {
       const parent =
-        dirContents[i] === path.basename(dirContents[i + 1], '.vue')
-          ? generateRelativePath(dir, dirContents[i + 1])
+        dirContents[i] === path.basename(dirContents[i + 1] || '', '.vue')
+          ? generateRelativePath(dir, dirContents[i + 1] || '')
           : null
       const nested = await readRoutesDirectory(relativePath)
       files.push(
