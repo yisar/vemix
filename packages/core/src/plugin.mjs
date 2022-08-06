@@ -1,12 +1,14 @@
 import path from 'path'
 import fs from 'fs'
+import { getOptions } from './build.mjs'
 
-const dirname = new URL('.', import.meta.url).pathname
-const routeDir = path.join(dirname, '../app/routes')
+const dirname = new URL('.', import.meta.url).pathname.slice(1)
 
 const generateRelativePath = (d, f) => (d ? path.join(d, f) : f)
 
 async function readRoutesDirectory(dir) {
+  const options = getOptions()
+  const routeDir = path.join(dirname, options.e)
   const files = []
   const rootDir = dir ? path.join(routeDir, dir) : routeDir
   const dirContents = await fs.promises.readdir(rootDir)
@@ -73,11 +75,9 @@ export const routePlugin = (build, filesPromise, type) => {
       const cmp = (await import('./${getImport(f.path)}')).default;
       return {
         name: 'RouteWrapper',
-        render: (h) => h(VktRoute, { props: { id: '${
-          f.path
-        }' }, scopedSlots: { default: props => h(cmp, { props: {id: '${
-      f.path
-    }'} })}} ),
+        render: (h) => h(VktRoute, { props: { id: '${f.path
+      }' }, scopedSlots: { default: props => h(cmp, { props: {id: '${f.path
+      }'} })}} ),
       };
     },
   ${getChildRoutes(f)}
@@ -89,9 +89,9 @@ export const routePlugin = (build, filesPromise, type) => {
   import { VktRoute } from '../../vkt/index.mjs';
   
   export default [${files
-    .filter((f) => !f.parent)
-    .map(getRoute)
-    .join(',')}];
+        .filter((f) => !f.parent)
+        .map(getRoute)
+        .join(',')}];
   `
 
     return {
@@ -115,8 +115,8 @@ ${files.map((f, i) => `import * as m_${i} from './${f.path}';`).join('\n')}
 
 export default {
   ${files
-    .map(
-      (f, i) => `'${f.path}': {
+        .map(
+          (f, i) => `'${f.path}': {
     id: '${f.path}',
     path: '${getPathFromFileName(f.path)}',
     parent: ${f.parent ? `'${f.parent}'` : 'null'},
@@ -124,8 +124,8 @@ export default {
     action: typeof m_${i}.action === 'undefined' ? null : m_${i}.action,
     loader: typeof m_${i}.loader === 'undefined' ? null : m_${i}.loader,
   }`
-    )
-    .join(',\n  ')}
+        )
+        .join(',\n  ')}
 };
 `
     return {

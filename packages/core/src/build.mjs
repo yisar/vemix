@@ -1,6 +1,7 @@
 import { build } from 'esbuild'
 import vue2Plugin from 'esbuild-vue'
-import { nodeFetchPlugin } from './plugins/node-fetch.mjs'
+import { nodeFetchPlugin, vktPlugin } from './plugin.mjs'
+let defineOptions = {}
 
 export async function buildSever() {
   const result = await build({
@@ -41,5 +42,11 @@ export async function buildClient() {
 }
 
 export async function buildAll(options) {
-  return Promise.all([buildSever, buildClient])
+  defineOptions = options
+  await buildClient()
+  await buildSever()
+}
+
+export function getOptions(){
+  return defineOptions
 }

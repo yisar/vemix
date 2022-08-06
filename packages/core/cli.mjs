@@ -1,4 +1,4 @@
-import { build, buildAll } from './src/build.mjs'
+import { buildAll } from './src/build.mjs'
 async function run(argv) {
   if (argv[0] === '-v' || argv[0] === '--version') {
     console.log('v0.0.1')
@@ -14,8 +14,8 @@ async function start(options) {
 
 const getOptions = (argv) => {
   let out = {
-    e: 'app.vue',
-    o: '/dist/',
+    e: './',
+    o: './dist/',
   }
   for (let i = 0; i < argv.length; i++) {
     const name = argv[i]

@@ -8,9 +8,9 @@
             "program": "${workspaceFolder}/core/cli.js",
             "args": [
                 "-e",
-                "./demo/app.json",
+                "./example/",
                 "-o",
-                "./dist/"
+                "./example/dist/"
             ]
         }
     ]
