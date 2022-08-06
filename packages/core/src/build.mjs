@@ -30,12 +30,16 @@ export async function buildClient() {
     splitting: true,
     target: 'es2020',
     outdir: 'dist/client',
-    plugins: [nodeFetchPlugin(), vue2Plugin({ type: 'client' })],
+    plugins: [
+      nodeFetchPlugin(),
+      vktPlugin({ type: 'client' }),
+      vue2Plugin({ type: 'client' }),
+    ],
     watch: process.env.WATCH === 'true',
   })
   return result
 }
 
-export async function build() {
+export async function buildAll(options) {
   return Promise.all([buildSever, buildClient])
 }

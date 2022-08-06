@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import routes from 'vkt:route-definition'
 import RootView from '../app/root.vue'
 
-export default function createVktApp(vktCtx, mode) {
+export default function createApp(vktCtx, mode) {
   Vue.use(VueRouter)
   const router = new VueRouter({ mode, routes })
   const app = new Vue({

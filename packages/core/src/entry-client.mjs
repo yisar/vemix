@@ -1,7 +1,6 @@
 import { reactive } from 'vue'
-
 import { getLeafRoute, getAncestorRoutes, fetchLoaderData } from './api.mjs'
-import createVktApp from './app.mjs'
+import createApp from './app.mjs'
 
 const vktCtx = reactive({
   routeManifest: window.__vkt.routeManifest,
@@ -10,7 +9,7 @@ const vktCtx = reactive({
   transition: { state: 'idle' },
 })
 
-const { app, router } = createVktApp(vktCtx, 'history')
+const { app, router } = createApp(vktCtx, 'history')
 
 window.__vkt.app = app
 window.__vkt.router = router
