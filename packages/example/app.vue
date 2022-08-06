@@ -9,7 +9,7 @@
 
 <script>
 import { computed } from 'vue'
-import { useTransition } from '@vkt/api.mjs'
+import { useTransition } from '../core/src/api.mjs'
 
 export default {
   name: 'AppRoot',
