@@ -1,4 +1,4 @@
-# vkt
+# venti
 
 Simple Vue SSR framework.
 
@@ -15,7 +15,7 @@ yarn dev
   <div>{{ msg }}</div>
 </template>
 <script>
-import { useLoaderData } from 'vkt'
+import { useLoaderData } from 'venti'
 import { computed } from 'vue'
 
 export function loader() {
