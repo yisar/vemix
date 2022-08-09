@@ -1,47 +1,10 @@
 import express from 'express'
-import { Response } from './response.mjs';
-import { WebSocketServer } from 'ws'
-let server = null
+import { Response } from './response.mjs'
 
-export async function startWss() {
-  const wss = new WebSocketServer({
-    port: 5678,
-    perMessageDeflate: {
-      zlibDeflateOptions: {
-        chunkSize: 1024,
-        memLevel: 7,
-        level: 3,
-      },
-      zlibInflateOptions: {
-        chunkSize: 10 * 1024,
-      },
-      clientNoContextTakeover: true,
-      serverNoContextTakeover: true,
-      serverMaxWindowBits: 10,
-      concurrencyLimit: 10,
-      threshold: 1024,
-    },
-  })
-
-  const reload = (file) => {
-    console.log('reload: ', file)
-    if (wss.clients) {
-      for (const client of wss.clients) {
-        client.send('reload')
-      }
-    }
-  }
-
-  return { reload }
-}
-
-export async function startServer(r) {
-  const {
-    renderApp,
-    routeManifest,
-    serverCreateApp,
-  } = await import(`file://${process.cwd()}/dist/server/app.js?t=${Date.now()}`);
-
+async function startServer() {
+  const { renderApp, routeManifest, serverCreateApp } = await import(
+    `file://${process.cwd()}/dist/server/app.js?t=${Date.now()}`
+  )
 
   const app = express()
   app.use(express.urlencoded({ extended: true }))
@@ -125,13 +88,12 @@ export async function startServer(r) {
 
           throw new Error('Unsupported thrown value from action')
         }
-      }      
+      }
 
       const results = await Promise.all(
-        activeRoutes.map((a) =>{
+        activeRoutes.map((a) => {
           return a.loader ? a.loader({ request: req }) : Promise.resolve(null)
-        }
-        )
+        })
       )
       results.forEach((data, i) =>
         Object.assign(context.loaderData, {
@@ -192,22 +154,12 @@ export async function startServer(r) {
     }
   })
 
-  server = app.listen(1234, () => {
+  app.listen(1234, () => {
     console.info('serve on http://localhost:1234')
   })
-
-  if (r) r()
-
-  const reload = () => {
-    server.close()
-    server = null
-    return new Promise(r => {
-      startServer(r)
-    })
-  }
-
-  return { reload }
 }
+
+startServer()
 
 function sendFetchResponse(fetchResponse, expressResponse, isSpaCall = false) {
   const isRedirect = [301, 302, 307].includes(fetchResponse.status)
