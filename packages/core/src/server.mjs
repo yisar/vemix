@@ -155,6 +155,10 @@ async function startServer() {
   })
 
   app.listen(1234, () => {
+    if (process.send) {
+      process.send('ok')
+    }
+
     console.info('serve on http://localhost:1234')
   })
 }

@@ -4,9 +4,17 @@ import path from 'path'
 import chalk from 'chalk'
 import { vktPlugin } from './plugin.mjs'
 
+function trimDirname(dirname) {
+  if (dirname.startsWith('.')) {
+    return dirname.slice(1)
+  }
+
+  return dirname
+}
+
 export async function buildSever(options) {
   const result = await build({
-    entryPoints: [path.join(options.dirname.slice(1), './entry-server.mjs')],
+    entryPoints: [path.join(trimDirname(options.dirname), './entry-server.mjs')],
     bundle: true,
     metafile: true,
     platform: 'node',
@@ -31,7 +39,7 @@ export async function buildSever(options) {
 
 export async function buildClient(options) {
   const result = await build({
-    entryPoints: [path.join(options.dirname.slice(1), './entry-client.mjs')],
+    entryPoints: [path.resolve(trimDirname(options.dirname), './entry-client.mjs')],
     bundle: true,
     format: 'esm',
     metafile: true,

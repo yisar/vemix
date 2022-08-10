@@ -137,7 +137,7 @@ export const vktPlugin = ({ type }) => ({
   name: 'vkt-plugin',
   setup(b) {
     b.onResolve({ filter: /^vkt:entry$/ }, async (args) => ({
-      path: process.cwd() + '\\app.vue'
+      path: process.cwd() + `${path.sep}app.vue`
     }))
     b.onResolve({ filter: /^node-fetch$/ }, () => ({ external: true }))
     const filesPromise = readRoutesDirectory()
