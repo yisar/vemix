@@ -2,12 +2,12 @@
   "name": "@vkt/core",
   "version": "0.0.1",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "bin": {
     "vkt": "bin/index.js"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git@github.com/yisar/fre-miniapp.git"
@@ -15,6 +15,7 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
+    "chokidar": "^3.5.3"
   }
 }

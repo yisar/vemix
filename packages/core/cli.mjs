@@ -1,7 +1,9 @@
-import { buildAll } from './src/build.mjs'
+import path from 'path'
 import child_process from 'child_process'
-import { watch } from 'chokidar'
+import { fileURLToPath } from 'url'
 import { WebSocketServer } from 'ws'
+import { watch } from 'chokidar'
+import { buildAll } from './src/build.mjs'
 
 let childProcess = null
 
@@ -14,14 +16,30 @@ async function run(argv) {
   }
 }
 
-function restartServer(script) {
-  if (childProcess && !childProcess.killed) {
-    childProcess.kill()
-  }
-  childProcess = child_process.spawn('node', [script], {
-    stdio: 'inherit',
+function restartServer(moduleName, script) {
+  return new Promise((resolve, reject) => {
+    if (childProcess && !childProcess.killed) {
+      childProcess.kill()
+    }
+    
+    childProcess = child_process
+      .fork(script, {
+        stdio: 'inherit',
+      })
+      .on('error', reject)
+      .on('message', message => {
+        
+        if (message === 'ok') {
+          resolve()
+        }
+      })
+    
+    if (moduleName) {
+      console.log(`[${moduleName}] restart ${script}`)
+    } else {
+      console.log(`start ${script}`)
+    }
   })
-  console.log(`[${primary(moduleName)}] restart ${normal(script)}`)
 }
 
 async function start(options) {
@@ -29,25 +47,32 @@ async function start(options) {
 
   const { reload: reloadClient } = await startWss()
 
+  function getServerModule() {
+    return path.dirname(fileURLToPath(import.meta.url)) + '/src/server.mjs'
+  }
+
   if (options.w) {
     watch(['**/*.{ts,tsx,js,jsx,vue,css,sass}'], {
       ignoreInitial: true,
       cwd: process.cwd(),
       ignored: ['node_modules', '.git', 'test-fixtures', 'dist'],
     })
+      .on('ready', () => {
+        restartServer('', getServerModule())
+      })
       .on('add', async (file) => {
         await buildAll(options)
-        restartServer('./server.mjs')
+        await restartServer(file, getServerModule())
         reloadClient(file)
       })
       .on('change', async (file) => {
         await buildAll(options)
-        restartServer('./server.mjs')
+        await restartServer(file, getServerModule())
         reloadClient(file)
       })
       .on('unlink', async (file) => {
         await buildAll(options)
-        restartServer('./server.mjs')
+        await restartServer(file, getServerModule())
         reloadClient(file)
       })
   }

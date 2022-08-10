@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ msg }}</h1>
+  <h1 class="msg">{{ msg }}</h1>
 </template>
 <script>
 import { useLoaderData } from '../../core/src/api.mjs'
@@ -7,7 +7,7 @@ import { computed } from 'vue'
 
 export function loader() {
   return {
-    msg: 'Hello world!333',
+    msg: 'Hello world!',
   }
 }
 
@@ -25,5 +25,6 @@ export default {
 <style>
 .msg{
     color: aquamarine;
+    text-shadow: 3px 3px 3px rgba(0,0,0,.3);
 }
 </style>
