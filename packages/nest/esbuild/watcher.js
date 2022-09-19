@@ -32,9 +32,7 @@ class BuildWatcher {
     try {
       await fs.stat(buildFolderPath)
       await fs.rm(buildFolderPath, { recursive: true })
-
     } catch (e) { 
-      // await fs.mkdir(buildFolderPath, { recursive: true })
     }
   }
 

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm --filter @venti/example dev",
-    "debug": "pnpm --filter @venti/example debug"
+    "debug": "pnpm --filter @venti/example debug",
+    "nest": "pnpm --filter @venti/nest dev"
   },
   "keywords": [],
   "author": "",
