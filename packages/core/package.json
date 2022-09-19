@@ -1,11 +1,11 @@
 {
-  "name": "@vkt/core",
+  "name": "@venti/core",
   "version": "0.0.1",
   "description": "",
   "type": "module",
   "main": "index.js",
   "bin": {
-    "vkt": "bin/index.js"
+    "venti": "bin/index.js"
   },
   "scripts": {},
   "repository": {

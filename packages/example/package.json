@@ -1,11 +1,11 @@
 {
-  "name": "@vkt/example",
+  "name": "@venti/example",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "vkt dev -w true",
+    "dev": "venti dev -w true",
     "debug": "node ../core/cli.mjs -w true"
   },
   "keywords": [],
